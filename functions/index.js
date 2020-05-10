@@ -20,16 +20,35 @@ exports.kmUploadTracksMusic = functions.https.onRequest(main);
 app.post('/save-track', async (request, response) => {
   try {
     console.log('request.-->', request.body)
-    const { title, selected } = request.body;
+    const { title, selected, url } = request.body;
 
     const data = {
       title, 
-      musicalCategories: selected
+      musicalCategories: selected,
+      url
     };
 
     const TracksRef = await db.collection('tracks').add(data);
     const track = await TracksRef.get();
     response.json({ id: track.id, data: track.data() });
+  }
+  catch (error) {
+    response.status(500).send({ err: error.message });
+  }
+});
+
+// get all data
+app.get('/music-categories', async (request, response) => {
+  try {
+    const querySnapshot = await db.collection('musicalCategories').get();
+    const res = [];
+    querySnapshot.forEach((doc) => {
+      res.push({
+        id: doc.id,
+        data: doc.data()
+      });
+    });
+    response.json(res);
   }
   catch (error) {
     response.status(500).send({ err: error.message });
