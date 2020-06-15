@@ -54,3 +54,24 @@ app.get('/music-categories', async (request, response) => {
     response.status(500).send({ err: error.message });
   }
 });
+
+// get all data
+app.get('/search', async (request, response) => {
+  try {
+    console.log('request.-->', request.query)
+    // const { cats, title } = request.query;
+    // const querySnapshot = await db.collection('musicalCategories').get();
+    const res = [];
+    // querySnapshot.forEach((doc) => {
+    //   res.push({
+    //     id: doc.id,
+    //     data: doc.data()
+    //   });
+    // });
+    response.json(res);
+  }
+  catch (error) {
+    response.status(500).send({ err: error.message });
+  }
+});
+
