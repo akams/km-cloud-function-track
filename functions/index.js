@@ -14,7 +14,7 @@ main.use(cors());
 main.use('/api/v1', app);
 main.use(bodyParser.json());
 
-exports.kmUploadTracksMusic = functions.https.onRequest(main);
+exports.kmTracksMusic = functions.https.onRequest(main);
 
 // post data
 app.post('/save-track', async (request, response) => {
@@ -37,7 +37,7 @@ app.post('/save-track', async (request, response) => {
   }
 });
 
-// get all data
+// get all data categorie music
 app.get('/music-categories', async (request, response) => {
   try {
     const querySnapshot = await db.collection('musicalCategories').get();
@@ -54,6 +54,24 @@ app.get('/music-categories', async (request, response) => {
     response.status(500).send({ err: error.message });
   }
 });
+
+app.get('/tracks', async (request, response) => {
+  try {
+    const querySnapshot = await db.collection('tracks').get();
+    const res = [];
+    querySnapshot.forEach((doc) => {
+      res.push({
+        id: doc.id,
+        data: doc.data()
+      });
+    });
+    response.json(res);
+  }
+  catch (error) {
+    response.status(500).send({ err: error.message });
+  }
+})
+
 
 // get all data
 app.get('/search', async (request, response) => {

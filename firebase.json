@@ -2,7 +2,7 @@
 	"ignore": [],
 	"rewrites": [{
 		"source": "/api/v1/**",
-		"function": "kmUploadTracksMusic"
+		"function": "kmTracksMusic"
 		}
 	]
 }
